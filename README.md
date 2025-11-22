@@ -327,6 +327,6 @@ Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para má
 
 ---
 
-**Desarrollado para la asignatura Ingeniería de Datos: Big Data**  
-*Máster en Ingeniería del Software - Cloud, Datos y Gestión TI*  
+**Desarrollado para la asignatura XXXXXXXX**  
+*Máster XXXXXXXXXXXXXXX*  
 *Universidad de Sevilla*

@@ -20,8 +20,8 @@ producer = Producer(conf)
 # Lista de ciudades para el ejemplo
 ciudades = ["Madrid", "Barcelona", "Valencia", "Sevilla", "Bilbao"]
 
-# Envío de 10 mensajes al topic 'test-topic'
-for i in range(20):
+# Envío de 30 mensajes al topic 'test-topic'
+for i in range(30):
     # Genera datos: fecha y hora actual, ciudad aleatoria y temperatura aleatoria
     datos = {
         "datetime": datetime.now().isoformat(),

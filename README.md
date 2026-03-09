@@ -11,7 +11,7 @@ Este repositorio contiene un entorno completo de desarrollo para **Big Data** qu
   - YARN con ResourceManager y NodeManager
   - Configuración lista para MapReduce
 - 📡 **Stack Kafka Completo**:
-  - Apache Kafka con Zookeeper
+  - Apache Kafka en modo KRaft (sin ZooKeeper)
   - Kafka Connect con conector HDFS preinstalado
   - Kafka UI para administración visual
 - 🔒 **Volúmenes Persistentes**: Datos de Hadoop almacenados en volúmenes Docker nombrados
@@ -144,22 +144,22 @@ hdfs dfsadmin -safemode leave
 
 ```bash
 # Listar topics
-kafka-topics --bootstrap-server localhost:9092 --list
+kafka-topics --bootstrap-server kafka:9092 --list
 
 # Crear un topic
-kafka-topics --bootstrap-server localhost:9092 --create --topic test --partitions 3 --replication-factor 1
+kafka-topics --bootstrap-server kafka:9092 --create --topic test --partitions 3 --replication-factor 1
 
 # Describir un topic
-kafka-topics --bootstrap-server localhost:9092 --describe --topic test
+kafka-topics --bootstrap-server kafka:9092 --describe --topic test
 
 # Producir mensajes (consola)
-kafka-console-producer --bootstrap-server localhost:9092 --topic test
+kafka-console-producer --bootstrap-server kafka:9092 --topic test
 
 # Consumir mensajes (consola)
-kafka-console-consumer --bootstrap-server localhost:9092 --topic test --from-beginning
+kafka-console-consumer --bootstrap-server kafka:9092 --topic test --from-beginning
 
 # Eliminar un topic
-kafka-topics --bootstrap-server localhost:9092 --delete --topic test
+kafka-topics --bootstrap-server kafka:9092 --delete --topic test
 ```
 
 ### Docker Compose
@@ -190,7 +190,7 @@ docker-compose restart kafka
 ## 🏗️ Arquitectura del Sistema
 
 ### Stack Kafka
-- **Zookeeper**: Coordinación y gestión de metadatos de Kafka
+- **KRaft (Kafka Raft)**: Gestión de metadatos embebida en Kafka (sin servicio externo)
 - **Kafka**: Broker de mensajería para streaming de datos
 - **Kafka Connect**: Integración con HDFS mediante conector preinstalado
 - **Kafka UI**: Interfaz gráfica para administración y monitoreo
@@ -270,12 +270,12 @@ docker-compose logs namenode
 hdfs dfsadmin -report
 ```
 
-### **Kafka no puede conectarse a Zookeeper**
-Asegúrate de que Zookeeper esté funcionando:
+### **Kafka no inicia en modo KRaft**
+Verifica los logs del broker y la configuración KRaft:
 ```bash
-docker-compose logs zookeeper
-docker exec -it zookeeper bash
-echo stat | nc localhost 2181
+docker-compose logs kafka
+docker exec -it kafka bash
+kafka-metadata-quorum --bootstrap-server kafka:9092 describe --status
 ```
 
 ### **Los volúmenes persisten datos entre reinicios**
